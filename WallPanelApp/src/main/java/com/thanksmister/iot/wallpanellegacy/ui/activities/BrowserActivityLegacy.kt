@@ -16,6 +16,7 @@
 
 package com.thanksmister.iot.wallpanellegacy.ui.activities
 
+import android.net.http.SslError;
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.design.widget.Snackbar
@@ -31,6 +32,7 @@ import org.xwalk.core.XWalkCookieManager
 import org.xwalk.core.XWalkResourceClient
 import org.xwalk.core.XWalkView
 import timber.log.Timber
+import android.webkit.ValueCallback;
 
 
 class BrowserActivityLegacy : BrowserActivity() {
@@ -82,6 +84,12 @@ class BrowserActivityLegacy : BrowserActivity() {
                     snackbar.setText(text)
                     snackbar.show()
                 }
+            }
+            
+            @Override
+            public void onReceivedSslError(XWalkView view, ValueCallback<Boolean> callback, SslError error) {
+                callback.onReceiveValue(true); // ignore SSL errors
+                // TODO: this does not work in CrossWalk :( may need work to patch it
             }
         })
 
